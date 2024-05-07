@@ -1,6 +1,5 @@
 FROM node:20.12-bullseye-slim as builder
 
-ARG API_URL
 ENV VITE_API_URL=$API_URL
 
 WORKDIR /app
