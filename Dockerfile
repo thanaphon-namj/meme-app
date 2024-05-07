@@ -1,6 +1,7 @@
 FROM node:20.12-bullseye-slim as builder
 
-ENV VITE_API_URL=https://meme-api-project.azurewebsites.net
+ARG API_URL
+ENV VITE_API_URL=$API_URL
 
 WORKDIR /app
 
