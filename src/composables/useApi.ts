@@ -10,12 +10,12 @@ export const useApi = () => {
   }
 
   const getPosts = async () => {
-    const response = await request.get('/posts')
+    const response = await request.get<Response<Post[]>>('/posts')
     return response.data
   }
 
   const getPostById = async (id: string) => {
-    const response = await request.get(`/posts/${id}`)
+    const response = await request.get<Response<Post>>(`/posts/${id}`)
     return response.data
   }
 
@@ -26,11 +26,20 @@ export const useApi = () => {
     return response.data
   }
 
-  const deletePost = () => {}
+  const deletePost = async (id: string) => {
+    const response = await request.delete<Response<Post>>(`/posts/${id}`)
+    return response.data
+  }
 
-  const like = () => {}
+  const like = async (id: string) => {
+    const response = await request.post<Response<Post>>(`/posts/${id}/like`)
+    return response.data
+  }
 
-  const unlike = () => {}
+  const unlike = async (id: string) => {
+    const response = await request.delete<Response<Post>>(`/posts/${id}/like`)
+    return response.data
+  }
 
   const addComment = async (id: string, payload: string) => {
     const response = await request.post<Response<Comment>>(`/posts/${id}/comments`, {
@@ -39,7 +48,10 @@ export const useApi = () => {
     return response.data
   }
 
-  const deleteComment = () => {}
+  const deleteComment = async (id: string, commentId: number) => {
+    const response = await request.delete<Response<Comment>>(`/posts/${id}/comments/${commentId}`)
+    return response.data
+  }
 
   return {
     createPost,

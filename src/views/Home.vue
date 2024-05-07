@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import useApi from '@/composables/api'
+import useApi from '@/composables/useApi'
 import type { Post } from '@/type'
 
 import Default from '@/layouts/Default.vue'

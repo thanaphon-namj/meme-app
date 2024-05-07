@@ -1,5 +1,5 @@
 export interface Post {
-  id: number
+  id: string
   caption: string | null
   imageUrl: string
   likes: number
