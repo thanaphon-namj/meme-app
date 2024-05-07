@@ -12,8 +12,6 @@ on:
 jobs:
   build:
     runs-on: 'ubuntu-latest'
-    env:
-      VITE_API_URL: ${{ vars.VITE_API_URL }}
 
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +32,10 @@ jobs:
           push: true
           tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_db1e1b9ec8944ffdb75ec7385c208ee7 }}/meme-app:${{ github.sha }}
           file: ./Dockerfile
-          build-args: VITE_API_URL=${{ env.VITE_API_URL }}
+          build-args: |
+            VITE_API_URL=${{ secrets.VITE_API_URL }}
+            API_URL=${{ vars.VITE_API_URL }}
+            API2_URL=${{ env.VITE_API_URL }}
 
   deploy:
     runs-on: ubuntu-latest
