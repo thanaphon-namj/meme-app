@@ -14,25 +14,24 @@ jobs:
     runs-on: 'ubuntu-latest'
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
-      - name: Log in to registry
-        uses: docker/login-action@v2
-        with:
-          registry: https://index.docker.io/v1/
-          username: ${{ secrets.AzureAppService_ContainerUsername_db1e1b9ec8944ffdb75ec7385c208ee7 }}
-          password: ${{ secrets.AzureAppService_ContainerPassword_8f44fbe95be2428ca643d64cf60b5025 }}
+    - name: Log in to registry
+      uses: docker/login-action@v2
+      with:
+        registry: https://index.docker.io/v1/
+        username: ${{ secrets.AzureAppService_ContainerUsername_e782be02fd5c43b0b9fc1b52e4f0a6e8 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_38f887d5fb1d45f79942dcad74030c83 }}
 
-      - name: Build and push container image to registry
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_db1e1b9ec8944ffdb75ec7385c208ee7 }}/meme-app:${{ github.sha }}
-          file: ./Dockerfile
-          build-args: VITE_API_URL=${{ secrets.VITE_API_URL }}
+    - name: Build and push container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        push: true
+        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_e782be02fd5c43b0b9fc1b52e4f0a6e8 }}/meme-app:${{ github.sha }}
+        file: ./Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
@@ -42,11 +41,11 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'meme-app-project'
-          slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_1411a83d340e42eba68b02e288b640a8 }}
-          images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_db1e1b9ec8944ffdb75ec7385c208ee7 }}/meme-app:${{ github.sha }}'
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'meme-app-project'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1882f796464f4a17954e328e19065cca }}
+        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_e782be02fd5c43b0b9fc1b52e4f0a6e8 }}/meme-app:${{ github.sha }}'
